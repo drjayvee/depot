@@ -24,7 +24,8 @@
           class: [base_class, {
             "#{valid_class}":   product.errors[:title].none?,
             "#{invalid_class}": product.errors[:title].any?
-          }]
+          }],
+          required: true
     %>
   </div>
 
@@ -36,7 +37,8 @@
           class: [base_class, {
             "#{valid_class}":   product.errors[:description].none?,
             "#{invalid_class}": product.errors[:description].any?
-          }]
+          }],
+          required: true
     %>
   </div>
 
@@ -58,7 +60,9 @@
           class: [base_class, {
             "#{valid_class}":   product.errors[:price].none?,
             "#{invalid_class}": product.errors[:price].any?
-          }]
+          }],
+          required: true,
+          type: "number", min: 0.01, step: 0.01
     %>
   </div>
 
