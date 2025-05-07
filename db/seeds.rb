@@ -7,3 +7,32 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Product.delete_all
+
+Product.create!(
+  title: "Alaska scenery painting",
+  description: "This was painted by yours truly. I know, I was quite surprised myself. 🎨😉🖌️",
+  price: 13.37,
+).image.attach(
+  io: File.open(Rails.root.join("db", "images", "alaska.jpg")),
+  filename: "Alaska scenery painting.jpg",
+)
+
+Product.create!(
+  title: "Child's Play",
+  description: "Like, literally...",
+  price: 12.34,
+).image.attach(
+  io: File.open(Rails.root.join("db", "images", "childs_play.jpg")),
+  filename: "Childs Play.jpg",
+)
+
+Product.create!(
+  title: "Mosaic coasters",
+  description: "Glass tiles to keep your table safe from glass.",
+  price: 9.99,
+).image.attach(
+  io: File.open(Rails.root.join("db", "images", "mosaic_coasters.jpg")),
+  filename: "Mosaic coasters.jpg",
+)
