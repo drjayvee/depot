@@ -3,7 +3,7 @@
   <p><%= product.description %></p>
   <div>
     <%= link_to(product.image, title: "View", target: "_blank") do %>
-      <%= image_tag product.image, class: "w-120", alt: product.image.filename %>
+      <%= image_tag product.image.variant(:preview), class: "w-120", alt: product.image.filename %>
     <% end %>
   </div>
   <div>

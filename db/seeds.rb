@@ -36,3 +36,7 @@ Product.create!(
   io: File.open(Rails.root.join("db", "images", "mosaic_coasters.jpg")),
   filename: "Mosaic coasters.jpg",
 )
+
+Product.all.each do |product|
+  product.image.variant(:thumb).processed
+end
