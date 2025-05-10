@@ -1,0 +1,3 @@
+alaska_image_blob: <%= ActiveStorage::FixtureSet.blob filename: "alaska.jpg" %>
+
+childs_play_image_blob: <%= ActiveStorage::FixtureSet.blob filename: "childs_play.jpg" %>

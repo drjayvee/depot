@@ -2,7 +2,7 @@ require "test_helper"
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @product = products(:one)
+    @product = products(:alaska)
   end
 
   test "should get index" do
@@ -17,7 +17,12 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create product" do
     assert_difference("Product.count") do
-      post products_url, params: { product: { description: @product.description, price: @product.price, title: @product.title } }
+      post products_url, params: { product: {
+        title: "Title",
+        description: "Description",
+        price: 1234,
+        image: fixture_file_upload("alaska.jpg", "image/jpg")
+      } }
     end
 
     assert_redirected_to product_url(Product.last)

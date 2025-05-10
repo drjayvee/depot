@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
-  description: MyText
-  price: 9.99
+alaska:
+  title: Alaska scenery painting
+  description: This was painted by yours truly. I know, I was quite surprised myself. 🎨😉🖌️
+  price: 13.37
 
-two:
-  title: MyString
-  description: MyText
-  price: 9.99
+childs_play:
+  title: Child's Play
+  description: Like, literally...
+  price: 12.34

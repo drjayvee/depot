@@ -1,0 +1,9 @@
+alaska_image_attachment:
+  name: image
+  record: alaska (Product)
+  blob: alaska_image_blob
+
+childs_play_image_attachment:
+  name: image
+  record: childs_play (Product)
+  blob: childs_play_image_blob
