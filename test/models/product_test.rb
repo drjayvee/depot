@@ -68,4 +68,18 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_empty product.errors[:price]
   end
+
+  test "image must be of acceptable type" do
+    product = Product.new
+    product.image.attach(io: File.open(__FILE__), filename: __FILE__)
+    product.validate
+
+    refute_empty product.errors[:image]
+    assert_equal "must be a GIF, JPEG or PNG image", product.errors[:image].first
+
+    product.image.attach(io: File.open(Rails.root.join("db", "images", "alaska.jpg")), filename: "alaska.jpg")
+    product.validate
+
+    assert_empty product.errors[:image]
+  end
 end
