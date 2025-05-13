@@ -82,4 +82,12 @@ class ProductTest < ActiveSupport::TestCase
 
     assert_empty product.errors[:image]
   end
+
+  test "cannot delete product in cart" do
+    product = products(:alaska) # LineItem exists
+
+    assert_raises(ActiveRecord::RecordNotDestroyed) { product.destroy! }
+    refute_empty product.errors[:base]
+    assert Product.exists?(product.id)
+  end
 end
