@@ -1,7 +1,7 @@
 class LineItemsController < ApplicationController
   include CurrentCart
 
-  before_action :set_cart, only: %i[ create ]
+  before_action :set_cart
   before_action :set_line_item, only: %i[ destroy ]
 
   # POST /line_items or /line_items.json
@@ -15,7 +15,7 @@ class LineItemsController < ApplicationController
         format.json { render :show, status: :created, location: @line_item }
       else
         @cart.reload
-        format.html { render @cart, status: :unprocessable_entity }
+        format.html { render @line_item.cart, status: :unprocessable_entity }
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
       end
     end
