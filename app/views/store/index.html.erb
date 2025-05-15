@@ -7,6 +7,10 @@
 
   <h1 class="font-bold text-xl mb-6 pb-2 border-b-2">Your Art(sy) depot</h1>
 
+  <% if @visit_count >= 5 %>
+    <p class="mb-4 font-bold text-red-400">Just browsing, huh?</p>
+  <% end %>
+
   <% cache @products do %>
     <ul>
       <% @products.each do |product| %>
