@@ -1,19 +1,24 @@
 <table id="<%= dom_id cart %>" class="w-full sm:w-auto my-5 space-y-5">
   <tr>
-    <th>#</th>
+    <th>Qty</th>
     <th>Product</th>
+    <th>Unit price</th>
     <th>Price</th>
     <th></th>
   </tr>
-  <% cart.line_items.each_with_index do |line_item, li| %>
+
+  <% grand_total = 0 %>
+  <% cart.line_items.each do |line_item| %>
+    <% line_total = line_item.quantity * line_item.product.price %>
+    <% grand_total += line_total %>
     <tr>
-      <td class="py-1"><%= li + 1 %></td>
+      <td class="py-1"><%= line_item.quantity %></td>
       <td class="px-4"><%= line_item.product.title %></td>
       <td><%= number_to_currency line_item.product.price %></td>
+      <td><%= number_to_currency line_total %></td>
       <td><%= button_to "🗑️", line_item, method: :delete %></td>
     </tr>
   <% end %>
 </table>
 
-<% total_price = cart.line_items.map { _1.product.price }.reduce(:+) %>
-<p class="mb-4"><span class="font-bold">Total:</span> <%= number_to_currency total_price %></p>
+<p class="mb-4"><span class="font-bold">Total:</span> <%= number_to_currency grand_total %></p>
