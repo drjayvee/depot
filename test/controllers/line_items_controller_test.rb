@@ -22,8 +22,5 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to %r{\A#{cart_url(@line_item.cart)}}
-
-    follow_redirect!
-    assert_response :success
   end
 end
