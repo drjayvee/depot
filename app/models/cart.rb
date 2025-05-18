@@ -6,6 +6,6 @@ class Cart < ApplicationRecord
   end
 
   def total_price
-    line_items.map { _1.total_price }.reduce(&:+)
+    line_items.sum(&:total_price)
   end
 end
