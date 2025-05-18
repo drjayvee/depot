@@ -18,4 +18,4 @@
   <% end %>
 </table>
 
-<p class="mb-4"><span class="font-bold">Total:</span> <%= number_to_currency cart.total_price %></p>
+<p class="mb-4" <%= dom_test_id "cart_total" %>><span class="font-bold">Total:</span> <%= number_to_currency cart.total_price %></p>
