@@ -4,4 +4,8 @@ class Cart < ApplicationRecord
   def empty?
     line_items.empty?
   end
+
+  def total_price
+    line_items.map { _1.total_price }.reduce(&:+)
+  end
 end

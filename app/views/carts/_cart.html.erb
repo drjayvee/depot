@@ -7,18 +7,15 @@
     <th></th>
   </tr>
 
-  <% grand_total = 0 %>
   <% cart.line_items.each do |line_item| %>
-    <% line_total = line_item.quantity * line_item.product.price %>
-    <% grand_total += line_total %>
     <tr>
       <td class="py-1"><%= line_item.quantity %></td>
       <td class="px-4"><%= line_item.product.title %></td>
       <td><%= number_to_currency line_item.product.price %></td>
-      <td><%= number_to_currency line_total %></td>
+      <td><%= number_to_currency line_item.total_price %></td>
       <td><%= button_to "🗑️", line_item, method: :delete %></td>
     </tr>
   <% end %>
 </table>
 
-<p class="mb-4"><span class="font-bold">Total:</span> <%= number_to_currency grand_total %></p>
+<p class="mb-4"><span class="font-bold">Total:</span> <%= number_to_currency cart.total_price %></p>

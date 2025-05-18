@@ -1,6 +1,10 @@
 require "test_helper"
 
 class CartTest < ActiveSupport::TestCase
+  def setup
+    @product = products(:alaska)
+  end
+
   test "empty?" do
     cart = carts(:two) # this cart is empty
 
@@ -9,6 +13,13 @@ class CartTest < ActiveSupport::TestCase
     cart.line_items.build(product: products(:alaska), cart:)
 
     refute cart.empty?
+  end
+
+  test "total_price" do
+    cart = Cart.new
+    cart.line_items.build(product: @product, quantity: 2)
+
+    assert_equal 2 * @product.price, cart.total_price
   end
 
   test "prevent duplicate products" do
