@@ -9,10 +9,11 @@
 
   <% if @cart.empty? %>
     <p class="text-sm text-gray-700">Cart is empty</p>
-    <%= link_to "Find a product", store_index_path %>
   <% else %>
     <%= render @cart %>
+
+    <%= button_to "Empty cart", @cart, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
   <% end %>
 
-  <%= button_to "Empty cart", @cart, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  <p><%= link_to "Back to store", store_index_path %></p>
 </div>
