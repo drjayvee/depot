@@ -17,8 +17,6 @@ class CartsControllerTest < ActionDispatch::IntegrationTest
     get cart_url(@cart)
     assert_response :success
 
-    puts response.parsed_body.to_html
-
     @cart.line_items.each_with_index do |line_item, i|
       assert_dom "tr:nth-child(#{i + 2})" do
         assert_dom "td:nth-child(1)", line_item.quantity.to_s
