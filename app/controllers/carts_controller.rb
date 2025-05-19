@@ -10,9 +10,11 @@ class CartsController < ApplicationController
     @cart.destroy!
 
     respond_to do |format|
-      format.html { redirect_to carts_path, status: :see_other, notice: "Cart was successfully destroyed." }
+      format.html { redirect_to store_index_path, status: :see_other, notice: "Cart was successfully emptied." }
       format.json { head :no_content }
     end
+
+    session.delete :cart_id
   end
 
   private

@@ -1,6 +1,7 @@
 <% if cart and not cart.empty? %>
   <div id="cart" class="bg-white rounded p-2">
     <%= render cart %>
+    <%= link_to "My cart", cart_path(cart) %>
   </div>
 <% else %>
   <div id="cart"></div>
