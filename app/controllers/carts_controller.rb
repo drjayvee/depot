@@ -22,7 +22,7 @@ class CartsController < ApplicationController
     session_cart_id = session[:cart_id]
     invalid_cart unless cart_id_param == session_cart_id
     @cart = Cart.find(session_cart_id)
-  rescue RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     invalid_cart
   end
 

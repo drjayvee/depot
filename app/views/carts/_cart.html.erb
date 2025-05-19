@@ -7,15 +7,7 @@
     <th></th>
   </tr>
 
-  <% cart.line_items.each do |line_item| %>
-    <tr>
-      <td class="py-1"><%= line_item.quantity %></td>
-      <td class="px-4"><%= line_item.product.title %></td>
-      <td><%= number_to_currency line_item.product.price %></td>
-      <td><%= number_to_currency line_item.total_price %></td>
-      <td><%= button_to "🗑️", line_item, method: :delete %></td>
-    </tr>
-  <% end %>
+  <%= render cart.line_items %>
 </table>
 
 <p class="mb-4" <%= dom_test_id "cart_total" %>><span class="font-bold">Total:</span> <%= number_to_currency cart.total_price %></p>

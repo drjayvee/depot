@@ -1,0 +1,7 @@
+<tr>
+  <td class="py-1"><%= line_item.quantity %></td>
+  <td class="px-4"><%= line_item.product.title %></td>
+  <td><%= number_to_currency line_item.product.price %></td>
+  <td><%= number_to_currency line_item.total_price %></td>
+  <td><%= button_to "🗑️", line_item, method: :delete %></td>
+</tr>
