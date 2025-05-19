@@ -1,8 +1,10 @@
 class LineItemsController < ApplicationController
   include CurrentCart
+  include VisitCount
 
   before_action :set_cart
   before_action :set_line_item, only: %i[ destroy ]
+  before_action :reset_visit_count, only: :create
 
   # POST /line_items or /line_items.json
   def create
