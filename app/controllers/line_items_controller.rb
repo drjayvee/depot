@@ -14,13 +14,7 @@ class LineItemsController < ApplicationController
       if @line_item.save
         format.html { redirect_to store_index_path, notice: "Line item was successfully created." }
         format.json { render :show, status: :created, location: @line_item }
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            :cart,
-            partial: 'layouts/cart',
-            locals: { cart: @cart }
-          )
-        end
+        format.turbo_stream
       else
         @cart.reload
         format.html { render @line_item.cart, status: :unprocessable_entity }
@@ -36,13 +30,7 @@ class LineItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to cart_path @line_item.cart, status: :see_other, notice: "Line item was successfully destroyed." }
       format.json { head :no_content }
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          :cart,
-          partial: 'layouts/cart',
-          locals: { cart: @cart }
-        )
-      end
+      format.turbo_stream { render :create }
     end
   end
 

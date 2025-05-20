@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "notice" do %>
+  <%= render 'store/notice' %>
+<% end %>
+
+<%= turbo_stream.replace "cart" do %>
+  <%= render 'layouts/cart', cart: @cart %>
+<% end %>
