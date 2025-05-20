@@ -14,7 +14,7 @@ class LineItemsController < ApplicationController
       if @line_item.save
         format.html { redirect_to store_index_path, notice: "Line item was successfully created." }
         format.json { render :show, status: :created, location: @line_item }
-        format.turbo_stream
+        format.turbo_stream { @current_item = @line_item }
       else
         @cart.reload
         format.html { render @line_item.cart, status: :unprocessable_entity }
