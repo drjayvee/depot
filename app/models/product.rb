@@ -12,7 +12,10 @@ class Product < ApplicationRecord
 
   validate :acceptable_image_type
 
-  after_commit { broadcast_refresh_later_to "products" }
+  after_commit do
+    broadcast_refresh_later_to "products"
+    broadcast_replace_later_to "store/products", partial: "store/product"
+  end
   before_destroy :ensure_not_referenced_by_any_line_item
 
   private
