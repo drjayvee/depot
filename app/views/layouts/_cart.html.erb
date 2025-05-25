@@ -1,7 +1,8 @@
 <% if cart and not cart.empty? %>
-  <div id="cart" class="bg-white rounded p-2">
-    <%= render cart %>
-    <%= link_to "My cart", cart_path(cart) %>
+  <div id="cart" class="bg-white rounded<%= local_assigns[:flash] ? " cart--flash" : "" %>">
+    <p class="p-2 text-right"><%= cart.line_items.reduce(0) { |sum, li| sum + li.quantity } %> items</p>
+    <p class="p-2 text-right">Total: <%= number_to_currency cart.total_price %></p>
+    <%= link_to "Show cart", cart_path(cart), class: "inline-block w-full rounded-b-md px-3-5 py-2.5 text-center font-medium text-dark bg-green-300 hover:bg-green-400 cursor-pointer" %>
   </div>
 <% else %>
   <div id="cart"></div>

@@ -1,0 +1,12 @@
+@keyframes flash-cart {
+    0% {
+        background: #8f8;
+    }
+    100% {
+        background: white;
+    }
+}
+
+.cart--flash {
+    animation: flash-cart 1s;
+}

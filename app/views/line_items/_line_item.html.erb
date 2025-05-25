@@ -1,4 +1,4 @@
-<tr class="<%= class_names({ "line-item-highlight" => line_item == @current_item }) %>">
+<tr>
   <td class="py-1"><%= line_item.quantity %></td>
   <td class="px-4"><%= line_item.product.title %></td>
   <td><%= number_to_currency line_item.product.price %></td>

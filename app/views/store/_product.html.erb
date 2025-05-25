@@ -1,4 +1,4 @@
-<%= turbo_frame_tag(dom_id(product)) do %>
+<%= turbo_frame_tag product, target: "_top" do %>
   <li class="flex mb-6">
     <%= image_tag(product.image.variant(:thumb), class: "object-contain w-40 h-48 shadow mr-6") %>
 

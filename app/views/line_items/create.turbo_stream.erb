@@ -1,7 +1,9 @@
+<%# Remove any notice %>
 <%= turbo_stream.replace "notice" do %>
   <%= render 'store/notice' %>
 <% end %>
 
+<%# Update the cart (in the <nav>) %>
 <%= turbo_stream.replace "cart" do %>
-  <%= render 'layouts/cart', cart: @cart %>
+  <%= render 'layouts/cart', cart: @cart, flash: true %>
 <% end %>
