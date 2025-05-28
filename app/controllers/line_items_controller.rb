@@ -30,7 +30,7 @@ class LineItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to cart_path @line_item.cart, status: :see_other, notice: "Line item was successfully destroyed." }
       format.json { head :no_content }
-      format.turbo_stream { render :create }
+      format.turbo_stream
     end
   end
 

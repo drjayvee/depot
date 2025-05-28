@@ -1,4 +1,4 @@
-<tr>
+<tr id="<%= dom_id line_item %>">
   <td class="py-1"><%= line_item.quantity %></td>
   <td
     class="px-4 cursor-pointer"
@@ -8,5 +8,5 @@
   ><%= line_item.product.title %></td>
   <td><%= number_to_currency line_item.product.price %></td>
   <td><%= number_to_currency line_item.total_price %></td>
-  <td><%= button_to "🗑️", line_item, method: :delete %></td>
+  <td><%= button_to "🗑️", line_item, method: :delete, class: "cursor-pointer" %></td>
 </tr>

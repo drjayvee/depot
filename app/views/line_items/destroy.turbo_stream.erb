@@ -1,0 +1,6 @@
+<%= turbo_stream.remove @line_item %>
+
+<%# Update the cart (in the <nav>) %>
+<%= turbo_stream.replace "cart" do %>
+  <%= render 'layouts/cart', cart: @cart, flash: true %>
+<% end %>
