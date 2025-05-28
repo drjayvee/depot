@@ -1,9 +1,11 @@
+<% image_variant = local_assigns.fetch(:image_variant, :preview) %>
+
 <div id="<%= dom_id product %>" class="w-full sm:w-auto my-5 space-y-5">
   <h3 class="text-2xl"><%= product.title %></h3>
   <p><%= product.description %></p>
   <div>
     <%= link_to(product.image, title: "View", target: "_blank") do %>
-      <%= image_tag product.image.variant(:preview), class: "w-120", alt: product.image.filename %>
+      <%= image_tag product.image.variant(image_variant), alt: product.image.filename %>
     <% end %>
   </div>
   <div>

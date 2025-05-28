@@ -1,0 +1,13 @@
+<dialog
+  class="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border-1 border-green-900 drop-shadow-2xl"
+  data-controller="dialog"
+  data-action="dialog:connect->dialog#show keydown.esc->dialog#close"
+>
+  <div class=" p-2.5">
+    <%= render @product, { image_variant: :thumb } %>
+  </div>
+
+  <form method="dialog">
+    <button class="w-full rounded-b-md px-3-5 py-2.5 font-medium text-dark bg-green-300 hover:bg-green-400 cursor-pointer">Close</button>
+  </form>
+</dialog>
