@@ -2,8 +2,7 @@ class LineItemsController < ApplicationController
   include CurrentCart
   include VisitCount
 
-  before_action :set_cart
-  before_action :set_line_item, only: %i[ destroy ]
+  before_action :set_cart, only: %i[ create ]
   before_action :reset_visit_count, only: :create
 
   # POST /line_items or /line_items.json
@@ -25,18 +24,24 @@ class LineItemsController < ApplicationController
 
   # DELETE /line_items/1 or /line_items/1.json
   def destroy
+    @line_item = LineItem.find(params.expect(:id))
+    @cart = @line_item.cart
+
     @line_item.destroy!
 
     respond_to do |format|
-      format.html { redirect_to cart_path @line_item.cart, status: :see_other, notice: "Line item was successfully destroyed." }
+      format.html { redirect_after_destroy }
       format.json { head :no_content }
-      format.turbo_stream
+      format.turbo_stream unless @cart.empty? # If cart is empty, redirect to store
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_line_item
-      @line_item = LineItem.find(params.expect(:id))
+    def redirect_after_destroy
+      redirect_to(
+        @cart.empty? ? store_index_path : cart_path(@line_item.cart),
+        status: :see_other,
+        notice: "Product was removed from your cart"
+      )
     end
 end
