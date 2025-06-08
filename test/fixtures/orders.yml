@@ -1,0 +1,5 @@
+one:
+  name: First
+  address: 1337 Pwn Rd.
+  email: customer@example.com
+  pay_type: 1

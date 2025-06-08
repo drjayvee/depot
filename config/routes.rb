@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :carts
   resources :line_items, only: %i[ create destroy ]
+  resources :orders
   resources :products
   get "products/:id/hovercard", to: "products#hovercard", as: "product_hovercard"
 end
