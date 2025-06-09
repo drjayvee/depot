@@ -1,6 +1,20 @@
 require "test_helper"
 
 class OrderTest < ActiveSupport::TestCase
+  test "attrs must be present" do
+    %i[name address email pay_type].each do |attr|
+      order = Order.new
+      order.validate
+
+      assert_not_empty order.errors[attr], "Expected an error for missing attribute #{attr}"
+
+      order[attr] = "Check"
+      order.validate
+
+      assert_empty order.errors[attr], "Expected no error for attribute #{attr} with value 'Check'"
+    end
+  end
+
   test "pay_type must be valid" do
     assert_raises(ArgumentError, match: /not a valid pay_type/) do
       Order.new(pay_type: "Wash dishes")
