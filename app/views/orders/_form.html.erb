@@ -13,22 +13,24 @@
 
   <div class="my-5">
     <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:name].none?, "border-red-400 focus:outline-red-600": order.errors[:name].any?}] %>
+    <%= form.text_field :name, required: true, class: "input-field" %>
   </div>
 
   <div class="my-5">
     <%= form.label :address %>
-    <%= form.textarea :address, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:address].none?, "border-red-400 focus:outline-red-600": order.errors[:address].any?}] %>
+    <%= form.textarea :address, required: true, rows: 4, class: "input-field" %>
   </div>
 
   <div class="my-5">
     <%= form.label :email %>
-    <%= form.text_field :email, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:email].none?, "border-red-400 focus:outline-red-600": order.errors[:email].any?}] %>
+    <%= form.email_field :email, required: true, class: "input-field" %>
   </div>
 
   <div class="my-5">
     <%= form.label :pay_type %>
-    <%= form.number_field :pay_type, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:pay_type].none?, "border-red-400 focus:outline-red-600": order.errors[:pay_type].any?}] %>
+    <%= form.select :pay_type, Order.pay_types.keys,
+                    { prompt: "Select a payment method" },
+                    required: true, class: "input-field" %>
   </div>
 
   <div class="inline">

@@ -12,7 +12,7 @@
   <% else %>
     <%= render @cart %>
 
-    <%= button_to "Empty cart", @cart, method: :delete, form_class: "mt-2 sm:mt-0 sm:ml-2", class: "rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+    <%= button_to "Empty cart", @cart, method: :delete, form_class: "inline-block mt-2 sm:mt-0 sm:ml-2", class: "rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
     <%= link_to "Check out", new_order_path(cart_id: @cart), class: "inline-block rounded-md px-3.5 py-2.5 text-white bg-green-600 hover:bg-green-500 font-medium cursor-pointer" %>
   <% end %>
 
