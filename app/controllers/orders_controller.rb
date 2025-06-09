@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   before_action :set_cart, only: %i[ new create ]
   before_action :ensure_cart_is_not_empty, only: %i[ new ]
-  before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :set_order, only: %i[ show ]
 
   def index
     @orders = Order.all
@@ -14,9 +14,6 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
-  end
-
-  def edit
   end
 
   def create
@@ -33,27 +30,6 @@ class OrdersController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: "Order was successfully updated." }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    @order.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to orders_path, status: :see_other, notice: "Order was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
