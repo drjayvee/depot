@@ -22,13 +22,16 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create order" do
+  test "should create order and destroy cart" do
     get new_order_url # session[:cart_id] doesn't yet exist
 
     cart = Cart.find(session[:cart_id])
     cart.line_items.create!(product_id: products(:alaska).id)
 
-    assert_difference("Order.count") do
+    assert_difference(
+      -> { Order.count } => 1,
+      -> { Cart.count }  => -1
+    ) do
       post orders_url, params: { order: { address: @order.address, email: @order.email, name: @order.name, pay_type: @order.pay_type }, cart_id: cart.id }
     end
 

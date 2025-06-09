@@ -47,4 +47,17 @@ class OrderTest < ActiveSupport::TestCase
 
     assert_equal 2 * product_1.price + 3 * product_2.price, order.total_price
   end
+
+  test "destroying an order should delete its line items" do
+    line_item = line_items(:one)
+
+    order = orders(:one)
+    order.line_items << line_item
+    order.save!
+    order.destroy!
+
+    assert_raises ActiveRecord::RecordNotFound do
+      LineItem.find(line_item.id)
+    end
+  end
 end

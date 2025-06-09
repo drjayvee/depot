@@ -25,6 +25,8 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        @cart.destroy!
+        session[:cart_id] = nil
         format.html { redirect_to @order, notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
