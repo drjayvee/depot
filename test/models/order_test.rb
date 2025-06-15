@@ -48,6 +48,20 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal 2 * product_1.price + 3 * product_2.price, order.total_price
   end
 
+  test "transfer line items from cart" do
+    cart = Cart.new
+    line_item = cart.line_items.build(product: products(:alaska))
+    # cart.save!
+
+    order = orders(:one)
+    order.transfer_line_items_from_cart cart
+
+    assert cart.empty?
+    assert_same 1, order.line_items.size
+    assert_equal line_item.id, order.line_items.first.id
+    assert_nil order.line_items.first.cart
+  end
+
   test "destroying an order should delete its line items" do
     line_item = line_items(:one)
 

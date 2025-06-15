@@ -28,4 +28,24 @@ class LineItemTest < ActiveSupport::TestCase
     line_item.quantity = 2
     assert_equal 2 * @product.price, line_item.total_price
   end
+
+  test " must belong to either cart or order" do
+    line_item = LineItem.new(product: @product)
+
+    line_item.validate
+    refute_empty line_item.errors[:base]
+
+    line_item.cart = @cart
+
+    assert line_item.valid?
+
+    line_item.cart = nil
+    line_item.order = Order.new
+
+    assert line_item.valid?
+
+    line_item.order = nil
+
+    refute line_item.valid?
+  end
 end

@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   enum :pay_type, {
-    "Check"          => 0,
-    "Credit card"    => 1,
+    "Check" => 0,
+    "Credit card" => 1,
     "Purchase order" => 2
   }
 
@@ -12,5 +12,12 @@ class Order < ApplicationRecord
 
   def total_price
     line_items.sum(&:total_price)
+  end
+
+  def transfer_line_items_from_cart(cart)
+    cart.line_items.each do |item|
+      line_items << item
+      cart.line_items.delete item
+    end
   end
 end
