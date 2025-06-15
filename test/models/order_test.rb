@@ -51,7 +51,6 @@ class OrderTest < ActiveSupport::TestCase
   test "transfer line items from cart" do
     cart = Cart.new
     line_item = cart.line_items.build(product: products(:alaska))
-    # cart.save!
 
     order = orders(:one)
     order.transfer_line_items_from_cart cart
