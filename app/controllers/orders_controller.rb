@@ -20,16 +20,12 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.transfer_line_items_from_cart @cart
 
-    respond_to do |format|
-      if @order.save
-        @cart.destroy!
-        session[:cart_id] = nil
-        format.html { redirect_to @order, notice: "Order was successfully created." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+    if @order.save
+      @cart.destroy!
+      session[:cart_id] = nil
+      redirect_to @order, notice: "Order was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 

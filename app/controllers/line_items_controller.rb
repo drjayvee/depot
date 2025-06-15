@@ -12,12 +12,10 @@ class LineItemsController < ApplicationController
     respond_to do |format|
       if @line_item.save
         format.html { redirect_to store_index_path, status: :see_other, notice: "Product was added to your cart." }
-        format.json { render :show, status: :created, location: @line_item }
         format.turbo_stream
       else
         @cart.reload
         format.html { render @line_item.cart, status: :unprocessable_entity }
-        format.json { render json: @line_item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -31,7 +29,6 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_after_destroy }
-      format.json { head :no_content }
       format.turbo_stream unless @cart.empty? # If cart is empty, redirect to store
     end
   end
