@@ -1,8 +1,14 @@
 class Order < ApplicationRecord
   enum :pay_type, {
-    "Check" => 0,
-    "Credit card" => 1,
-    "Purchase order" => 2
+    check: 0,
+    credit_card: 1,
+    purchase_order: 2
+  }, validate: true
+
+  PAY_TYPE_NAMES = {
+    check: "Check",
+    credit_card: "Credit card",
+    purchase_order: "Purchase order"
   }
 
   validates_presence_of :name, :address, :email, :pay_type

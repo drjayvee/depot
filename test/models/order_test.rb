@@ -8,17 +8,20 @@ class OrderTest < ActiveSupport::TestCase
 
       assert_not_empty order.errors[attr], "Expected an error for missing attribute #{attr}"
 
-      order[attr] = "Check"
+      order[attr] = :check
       order.validate
 
-      assert_empty order.errors[attr], "Expected no error for attribute #{attr} with value 'Check'"
+      assert_empty order.errors[attr], "Expected no error for attribute #{attr} with value :check"
     end
   end
 
   test "pay_type must be valid" do
-    assert_raises(ArgumentError, match: /not a valid pay_type/) do
-      Order.new(pay_type: "Wash dishes")
-    end
+    order = Order.new(pay_type: :present_ioy)
+
+    order.validate
+
+    refute_empty order.errors[:pay_type]
+    assert_match /is not included/, order.errors[:pay_type].first
   end
 
   test "must have at least one line item" do
