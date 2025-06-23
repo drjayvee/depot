@@ -8,15 +8,19 @@ class OrderTest < ActiveSupport::TestCase
 
       assert_not_empty order.errors[attr], "Expected an error for missing attribute #{attr}"
 
-      order[attr] = :check
+      order[attr] = if attr == :pay_type
+        Payment::TYPES[:check]
+      else
+        "Some value"
+      end
       order.validate
 
-      assert_empty order.errors[attr], "Expected no error for attribute #{attr} with value :check"
+      assert_empty order.errors[attr], "Expected no error for attribute #{attr} with value #{order[attr].inspect}"
     end
   end
 
   test "pay_type must be valid" do
-    order = Order.new(pay_type: :present_ioy)
+    order = Order.new(pay_type: 1337)
 
     order.validate
 

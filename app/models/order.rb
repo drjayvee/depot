@@ -1,17 +1,6 @@
 class Order < ApplicationRecord
-  enum :pay_type, {
-    check: 0,
-    credit_card: 1,
-    purchase_order: 2
-  }, validate: true
-
-  PAY_TYPE_NAMES = {
-    check: "Check",
-    credit_card: "Credit card",
-    purchase_order: "Purchase order"
-  }
-
-  validates_presence_of :name, :address, :email, :pay_type
+  validates_presence_of :name, :address, :email
+  validates_inclusion_of :pay_type, in: Payment::TYPES.values, allow_nil: false
 
   has_many :line_items, dependent: :destroy
   validates :line_items, length: { minimum: 1, message: "Order must have at least one line item" }

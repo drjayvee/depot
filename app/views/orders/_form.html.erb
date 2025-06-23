@@ -28,7 +28,7 @@
 
   <div class="my-5">
     <%= form.label :pay_type %>
-    <%= form.select :pay_type, Order::PAY_TYPE_NAMES.invert,
+    <%= form.select :pay_type, Payment::TYPE_NAMES.invert,
                     { prompt: "Select a payment method" },
                     required: true,
                     class: "input-field",
@@ -39,7 +39,7 @@
   <fieldset
     hidden
     data-payment-type-fields-target="fieldset"
-    data-payment-type="check"
+    data-payment-type="<%= Payment::TYPES[:check] %>"
   >
     <div class="mb-5">
       <%= form.label :routing_number %>
@@ -55,7 +55,7 @@
   <fieldset
     hidden
     data-payment-type-fields-target="fieldset"
-    data-payment-type="credit_card"
+    data-payment-type="<%= Payment::TYPES[:credit_card] %>"
   >
     <div class="mb-5">
       <%= form.label :credit_card_number %>
@@ -71,7 +71,7 @@
   <fieldset
     hidden
     data-payment-type-fields-target="fieldset"
-    data-payment-type="purchase_order"
+    data-payment-type="<%= Payment::TYPES[:purchase_order] %>"
   >
     <div class="mb-5">
       <%= form.label :purchase_order %>
