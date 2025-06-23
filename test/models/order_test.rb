@@ -21,11 +21,17 @@ class OrderTest < ActiveSupport::TestCase
 
   test "pay_type must be valid" do
     order = Order.new(pay_type: 1337)
-
     order.validate
 
     refute_empty order.errors[:pay_type]
     assert_match /is not included/, order.errors[:pay_type].first
+
+    Payment::TYPES.values.each do |pay_type|
+      order.pay_type = pay_type
+      order.validate
+
+      assert_empty order.errors[:pay_type], "pay_type #{pay_type.inspect} should be valid"
+    end
   end
 
   test "must have at least one line item" do
