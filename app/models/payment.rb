@@ -12,4 +12,10 @@ module Payment
     TYPES[:credit_card] => "Credit card",
     TYPES[:purchase_order] => "Purchase order"
   }
+
+  TYPE_CLASSES = {
+    TYPES[:check] => CheckPayment,
+    TYPES[:credit_card] => CreditCardPayment,
+    TYPES[:purchase_order] => PurchaseOrderPayment
+  }
 end

@@ -20,15 +20,15 @@ module Payment
     # Uses the +"type"+ key to determine the subclass and calls its +from_json+.
     def self.from_json(json)
       hash = ActiveSupport::JSON.decode(json)
-      type = hash["type"]
+      klass = TYPE_CLASSES[hash["type"]]
 
-      type.constantize.new.tap do
+      klass.new.tap do
         it.from_json(json)
       end
     end
 
     def as_json
-      super.merge(type: self.class.name)
+      super.merge(type: TYPE_CLASSES.key(self.class))
     end
 
     def attributes=(hash) # overriding from_json be nicer but would require more code

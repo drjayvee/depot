@@ -15,10 +15,13 @@ module Payment
     end
 
     test "as_json includes :type key with class name" do
-      json = CheckPayment.new.as_json
+      TYPE_CLASSES.each_pair do |pair|
+        pair => [ type, klass ]
+        json = klass.new.as_json
 
-      assert_includes json.keys, :type
-      assert_equal CheckPayment.name, json[:type]
+        assert_includes json.keys, :type
+        assert_equal type, json[:type]
+      end
     end
 
     test "can serialize to and from JSON" do
