@@ -2,14 +2,14 @@ require "test_helper"
 
 class OrderTest < ActiveSupport::TestCase
   test "attrs must be present" do
-    %i[name address email pay_type].each do |attr|
+    %i[name address email payment_data].each do |attr|
       order = Order.new
       order.validate
 
       assert_not_empty order.errors[attr], "Expected an error for missing attribute #{attr}"
 
-      order[attr] = if attr == :pay_type
-        Payment::TYPES[:check]
+      order[attr] = if attr == :payment_data
+        Payment::PurchaseOrderPayment.new(number: "yep").as_json
       else
         "Some value"
       end
@@ -19,19 +19,26 @@ class OrderTest < ActiveSupport::TestCase
     end
   end
 
-  test "pay_type must be valid" do
-    order = Order.new(pay_type: 1337)
+  test "payment must be valid" do
+    order = Order.new
+    order.payment = Payment::PurchaseOrderPayment.new
     order.validate
 
-    refute_empty order.errors[:pay_type]
-    assert_match /is not included/, order.errors[:pay_type].first
+    refute_empty order.errors[:payment_data], "Error for :payment_data must exit"
+    assert_match /can't be blank/, order.errors[:payment_data].first
+  end
 
-    Payment::TYPES.values.each do |pay_type|
-      order.pay_type = pay_type
-      order.validate
+  test "Setting payment_data updates payment" do
+    order = Order.new
+    order.payment = Payment::PurchaseOrderPayment.new
 
-      assert_empty order.errors[:pay_type], "pay_type #{pay_type.inspect} should be valid"
-    end
+    order.payment_data = Payment::CreditCardPayment.new.as_json
+
+    assert order.payment.kind_of?(Payment::CreditCardPayment)
+
+    order.payment_data = nil
+
+    assert_nil order.payment
   end
 
   test "must have at least one line item" do

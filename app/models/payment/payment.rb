@@ -12,23 +12,27 @@ module Payment
       super
     end
 
-    # Create a Payment from a JSON +string+ sets attributes.
+    # Create a Payment from a JSON +string+ or +hash+ and sets attributes.
     #
     #   pm = SomePayment.new(attr: "value")
     #   Payment.from_json(pm.to_json) # => <SomePayment:0x1337, @attr="value">
     #
     # Uses the +"type"+ key to determine the subclass and calls its +from_json+.
     def self.from_json(json)
-      hash = ActiveSupport::JSON.decode(json)
+      hash = if json.kind_of? String
+        ActiveSupport::JSON.decode(json)
+      else
+        json
+      end
       klass = TYPE_CLASSES[hash["type"]]
 
       klass.new.tap do
-        it.from_json(json)
+        it.attributes = hash
       end
     end
 
     def as_json
-      super.merge(type: TYPE_CLASSES.key(self.class))
+      super.merge("type" => TYPE_CLASSES.key(self.class))
     end
 
     def attributes=(hash) # overriding from_json be nicer but would require more code

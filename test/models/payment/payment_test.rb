@@ -19,8 +19,8 @@ module Payment
         pair => [ type, klass ]
         json = klass.new.as_json
 
-        assert_includes json.keys, :type
-        assert_equal type, json[:type]
+        assert_includes json.keys, "type"
+        assert_equal type, json["type"]
       end
     end
 
