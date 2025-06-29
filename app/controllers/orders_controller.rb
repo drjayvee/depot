@@ -39,6 +39,16 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.expect(order: [ :name, :address, :email, :pay_type ])
+      params.expect(order: [
+        :name,
+        :address,
+        :email,
+        payment_data: [
+          :type,
+          :routing_number, :account_number,      # CheckPayment
+          :credit_card_number, :expiration_date, # CreditCardPayment
+          :number,                               # PurchaseOrderPayment
+        ],
+      ])
     end
 end

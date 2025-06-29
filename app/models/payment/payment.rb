@@ -20,14 +20,14 @@ module Payment
     # Uses the +"type"+ key to determine the subclass and calls its +from_json+.
     def self.from_json(json)
       hash = if json.kind_of? String
-        ActiveSupport::JSON.decode(json)
-      else
-        json
-      end
-      klass = TYPE_CLASSES[hash["type"]]
+               ActiveSupport::JSON.decode(json)
+             else
+               json.stringify_keys
+             end
+      klass = TYPE_CLASSES[hash["type"].to_i]
 
-      klass.new.tap do
-        it.attributes = hash
+      klass.new.tap do |payment|
+        payment.attributes = hash.filter { payment.attributes.include?(it) }
       end
     end
 
@@ -37,6 +37,10 @@ module Payment
 
     def attributes=(hash) # overriding from_json be nicer but would require more code
       super(hash.without("type"))
+    end
+
+    def type_name
+      TYPE_NAMES[TYPE_CLASSES.key(self.class)]
     end
   end
 end

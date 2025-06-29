@@ -27,11 +27,22 @@ module Payment
     test "can serialize to and from JSON" do
       cp1 = CheckPayment.new(account_number: "ACC-1337")
 
-      cp2 = CheckPayment.from_json(cp1.to_json)
+      %i[to_json as_json].each do |method|
+        cp2 = CheckPayment.from_json(cp1.send(method))
 
-      assert_kind_of CheckPayment, cp2
-      assert_equal cp1.account_number, cp2.account_number
-      assert_nil cp2.routing_number
+        assert_kind_of CheckPayment, cp2
+        assert_equal cp1.account_number, cp2.account_number
+        assert_nil cp2.routing_number
+      end
+    end
+
+    test "Payment.from_json ignores keys" do
+      cp1 = CheckPayment.new(account_number: "ACC-1337")
+
+      CheckPayment.from_json(cp1.as_json.merge(ignore: :me))
+      pass
+    rescue ActiveModel::UnknownAttributeError
+      flunk "UnknownAttributeError was raised"
     end
   end
 end

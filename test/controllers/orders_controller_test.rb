@@ -3,7 +3,6 @@ require "test_helper"
 class OrdersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @order = orders(:one)
-    skip "OrdersController and views not yet updated to use payment_data"
   end
 
   test "should get index" do
@@ -33,7 +32,13 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       -> { Order.count } => 1,
       -> { Cart.count }  => -1
     ) do
-      post orders_url, params: { order: { address: @order.address, email: @order.email, name: @order.name, pay_type: @order.pay_type }, cart_id: cart.id }
+      post(orders_url, params: { order: {
+        address: @order.address,
+        email: @order.email,
+        name: @order.name,
+        payment_data: @order.payment_data,
+        cart_id: cart.id
+      } })
     end
 
     assert_redirected_to order_url(Order.last)

@@ -12,9 +12,8 @@
     <%= order.email %>
   </div>
   <div>
-    <strong class="block mb-1">Pay type:</strong>
-    <%= order.pay_type %>
-  </div>
+    <strong class="block mb-1">Payment:</strong>
+    <%= order.payment.type_name %> with <%= order.payment.attributes %>
   <div>
     <strong class="block mb-1">Total amount:</strong>
     <%= number_to_currency order.total_price %>

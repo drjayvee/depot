@@ -26,58 +26,60 @@
     <%= form.email_field :email, required: true, class: "input-field" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :pay_type %>
-    <%= form.select :pay_type, Payment::TYPE_NAMES.invert,
-                    { prompt: "Select a payment method" },
-                    required: true,
-                    class: "input-field",
-                    data: { action: "payment-type-fields#update" } %>
-  </div>
-
-  <%# Check %>
-  <fieldset
-    hidden
-    data-payment-type-fields-target="fieldset"
-    data-payment-type="<%= Payment::TYPES[:check] %>"
-  >
-    <div class="mb-5">
-      <%= form.label :routing_number %>
-      <%= form.text_field :routing_number, class: "input-field" %>
-    </div>
+  <%= form.fields_for :payment_data do |payment_fields| %>
     <div class="my-5">
-      <%= form.label :account_number %>
-      <%= form.text_field :account_number, class: "input-field" %>
+      <%= payment_fields.label :type, "Payment type" %>
+      <%= payment_fields.select :type, Payment::TYPE_NAMES.invert,
+                      { prompt: "Select a payment method" },
+                      required: true,
+                      class: "input-field",
+                      data: { action: "payment-type-fields#update" } %>
     </div>
-  </fieldset>
 
-  <%# Credit card %>
-  <fieldset
-    hidden
-    data-payment-type-fields-target="fieldset"
-    data-payment-type="<%= Payment::TYPES[:credit_card] %>"
-  >
-    <div class="mb-5">
-      <%= form.label :credit_card_number %>
-      <%= form.text_field :credit_card_number, class: "input-field" %>
-    </div>
-    <div class="my-5">
-      <%= form.label :expiration_date %>
-      <%= form.text_field :expiration_date, class: "input-field", placeholder: "e.g., 01/25" %>
-    </div>
-  </fieldset>
+    <%# Check %>
+    <fieldset
+      hidden
+      data-payment-type-fields-target="fieldset"
+      data-payment-type="<%= Payment::TYPES[:check] %>"
+    >
+      <div class="mb-5">
+        <%= payment_fields.label :routing_number %>
+        <%= payment_fields.text_field :routing_number, class: "input-field" %>
+      </div>
+      <div class="my-5">
+        <%= payment_fields.label :account_number %>
+        <%= payment_fields.text_field :account_number, class: "input-field" %>
+      </div>
+    </fieldset>
 
-  <%# Purchase order %>
-  <fieldset
-    hidden
-    data-payment-type-fields-target="fieldset"
-    data-payment-type="<%= Payment::TYPES[:purchase_order] %>"
-  >
-    <div class="mb-5">
-      <%= form.label :purchase_order %>
-      <%= form.text_field :purchase_order, class: "input-field" %>
-    </div>
-  </fieldset>
+    <%# Credit card %>
+    <fieldset
+      hidden
+      data-payment-type-fields-target="fieldset"
+      data-payment-type="<%= Payment::TYPES[:credit_card] %>"
+    >
+      <div class="mb-5">
+        <%= payment_fields.label :card_number %>
+        <%= payment_fields.text_field :card_number, class: "input-field" %>
+      </div>
+      <div class="my-5">
+        <%= payment_fields.label :expiration_date %>
+        <%= payment_fields.text_field :expiration_date, class: "input-field", placeholder: "e.g., 01/25" %>
+      </div>
+    </fieldset>
+
+    <%# Purchase order %>
+    <fieldset
+      hidden
+      data-payment-type-fields-target="fieldset"
+      data-payment-type="<%= Payment::TYPES[:purchase_order] %>"
+    >
+      <div class="mb-5">
+        <%= payment_fields.label :number %>
+        <%= payment_fields.text_field :number, class: "input-field" %>
+      </div>
+    </fieldset>
+  <% end %>
 
   <div class="inline">
     <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
