@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  validates_presence_of :name, :address, :email, :payment_data
+  validates :name, :address, :email, :payment_data, presence: true
 
   has_many :line_items, dependent: :destroy
   validates :line_items, length: { minimum: 1, message: "Order must have at least one line item" }

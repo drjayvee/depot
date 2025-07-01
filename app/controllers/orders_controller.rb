@@ -25,6 +25,7 @@ class OrdersController < ApplicationController
       session[:cart_id] = nil
       redirect_to @order, notice: "Order was successfully created."
     else
+      # TODO: Bug! Line items have been removed from cart!
       render :new, status: :unprocessable_entity
     end
   end
