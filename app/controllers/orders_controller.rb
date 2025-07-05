@@ -17,7 +17,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(order_params.except(:payment_data))
+    @order.payment = Payment::Payment.load(order_params[:payment_data].to_h)
     @order.transfer_line_items_from_cart @cart
 
     if @order.save

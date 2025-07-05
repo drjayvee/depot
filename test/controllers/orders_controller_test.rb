@@ -36,7 +36,10 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         address: @order.address,
         email: @order.email,
         name: @order.name,
-        payment_data: @order.payment_data,
+        payment_data: {
+          type: @order.payment.as_json["type"],
+          number: @order.payment.number
+        },
         cart_id: cart.id
       } })
     end

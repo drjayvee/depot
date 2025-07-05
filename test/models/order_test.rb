@@ -2,14 +2,14 @@ require "test_helper"
 
 class OrderTest < ActiveSupport::TestCase
   test "attrs must be present" do
-    %i[name address email payment_data].each do |attr|
+    %i[name address email payment].each do |attr|
       order = Order.new
       order.validate
 
       assert_not_empty order.errors[attr], "Expected an error for missing attribute #{attr}"
 
-      order[attr] = if attr == :payment_data
-        Payment::PurchaseOrderPayment.new(number: "yep").as_json
+      order[attr] = if attr == :payment
+        Payment::PurchaseOrderPayment.new(number: "yep")
       else
         "Some value"
       end
@@ -24,21 +24,26 @@ class OrderTest < ActiveSupport::TestCase
     order.payment = Payment::PurchaseOrderPayment.new
     order.validate
 
-    refute_empty order.errors[:payment_data], "Error for :payment_data must exit"
-    assert_match /can't be blank/, order.errors[:payment_data].first
+    refute_empty order.errors[:payment], "Error for :payment_data must exit"
+    assert_match /can't be blank/, order.errors[:payment].first
   end
 
-  test "Setting payment_data updates payment" do
-    order = Order.new
-    order.payment = Payment::PurchaseOrderPayment.new
+  test "payment is serialized" do
+    order = orders(:one)
+    order.line_items << line_items(:one)
 
-    order.payment_data = Payment::CreditCardPayment.new.as_json
+    assert order.payment.is_a? Payment::Payment
+    assert order.payment.valid?
 
-    assert order.payment.kind_of?(Payment::CreditCardPayment)
+    order.payment = Payment::CreditCardPayment.new(
+      card_number: "1337-1337-1337-1337",
+      expiration_date: Date.today
+    )
+    order.save!
 
-    order.payment_data = nil
-
-    assert_nil order.payment
+    order.reload
+    assert order.payment.is_a? Payment::CreditCardPayment
+    assert order.payment.valid?
   end
 
   test "must have at least one line item" do

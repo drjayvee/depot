@@ -12,18 +12,24 @@ module Payment
       super
     end
 
+    def self.dump(payment)
+      payment.to_json
+    end
+
     # Create a Payment from a JSON +string+ or +hash+ and sets attributes.
     #
     #   pm = SomePayment.new(attr: "value")
-    #   Payment.from_json(pm.to_json) # => <SomePayment:0x1337, @attr="value">
+    #   Payment.load(pm.dump) # => <SomePayment:0x1337, @attr="value">
     #
-    # Uses the +"type"+ key to determine the subclass and calls its +from_json+.
-    def self.from_json(json)
+    # Uses the +"type"+ key to determine the subclass and calls +attributes=n+.
+    def self.load(json)
+      return nil if json.nil?
+
       hash = if json.kind_of? String
-               ActiveSupport::JSON.decode(json)
-             else
-               json.stringify_keys
-             end
+        ActiveSupport::JSON.decode(json)
+      else
+        json.stringify_keys
+      end
       klass = TYPE_CLASSES[hash["type"].to_i]
 
       klass.new.tap do |payment|

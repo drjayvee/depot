@@ -2,6 +2,6 @@ one:
   name: First
   address: 1337 Pwn Rd.
   email: customer@example.com
-  payment_data:
+  payment:
     type: 2 # Purchase Order
     number: 123

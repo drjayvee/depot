@@ -28,18 +28,24 @@ module Payment
       cp1 = CheckPayment.new(account_number: "ACC-1337")
 
       %i[to_json as_json].each do |method|
-        cp2 = CheckPayment.from_json(cp1.send(method))
+        cp2 = CheckPayment.load(cp1.send(method))
 
         assert_kind_of CheckPayment, cp2
         assert_equal cp1.account_number, cp2.account_number
         assert_nil cp2.routing_number
       end
+
+      cp2 = CheckPayment.load(Payment.dump(cp1))
+
+      assert_kind_of CheckPayment, cp2
+      assert_equal cp1.account_number, cp2.account_number
+      assert_nil cp2.routing_number
     end
 
-    test "Payment.from_json ignores keys" do
+    test "Payment.load ignores non-attribute keys" do
       cp1 = CheckPayment.new(account_number: "ACC-1337")
 
-      CheckPayment.from_json(cp1.as_json.merge(ignore: :me))
+      CheckPayment.load(cp1.as_json.merge(ignore: :me))
       pass
     rescue ActiveModel::UnknownAttributeError
       flunk "UnknownAttributeError was raised"
