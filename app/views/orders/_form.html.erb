@@ -26,7 +26,7 @@
     <%= form.email_field :email, required: true, class: "input-field" %>
   </div>
 
-  <%= form.fields_for :payment_data do |payment_fields| %>
+  <%= form.fields_for :payment do |payment_fields| %>
     <div class="my-5">
       <%= payment_fields.label :type, "Payment type" %>
       <%= payment_fields.select :type, Payment::TYPE_NAMES.invert,

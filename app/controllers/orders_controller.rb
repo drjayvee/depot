@@ -17,8 +17,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(order_params.except(:payment_data))
-    @order.payment = Payment::Payment.load(order_params[:payment_data].to_h)
+    @order = Order.new(order_params.except(:payment))
+    @order.payment = Payment::Payment.load(order_params[:payment].to_h)
     @order.transfer_line_items_from_cart @cart
 
     if @order.save
@@ -45,7 +45,7 @@ class OrdersController < ApplicationController
         :name,
         :address,
         :email,
-        payment_data: [
+        payment: [
           :type,
           :routing_number, :account_number,      # CheckPayment
           :credit_card_number, :expiration_date, # CreditCardPayment
