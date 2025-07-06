@@ -1,0 +1,11 @@
+<h1>Dear <%= @order.name %></h1>
+
+<p>Thanks for your order.</p>
+
+<p>In case you forgot, you selected the following fine items:</p>
+
+<%= render partial: "order", locals: { order: @order } %>
+
+<p>Choice excellent, my friend! ;p</p>
+
+<p>We'll send you another update when we shibby your order.</p>

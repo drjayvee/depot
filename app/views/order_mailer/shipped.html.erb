@@ -1,0 +1,7 @@
+<h1>Dear <%= @order.name %>,</h1>
+
+<p>We just shibbed your order containing the following items:</p>
+
+<%= render partial: "order", locals: { order: @order } %>
+
+Enjoy!

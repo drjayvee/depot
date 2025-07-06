@@ -1,0 +1,12 @@
+<table>
+  <tr>
+    <th>Qty</th>
+    <th>Product</th>
+  </tr>
+  <% order.line_items.each do |line_item| %>
+    <tr>
+      <td><%= line_item.quantity %>&times;</td>
+      <td><%= line_item.product.title %></td>
+    </tr>
+  <% end %>
+</table>
