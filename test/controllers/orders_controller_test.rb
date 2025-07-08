@@ -45,16 +45,19 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       } })
     end
 
-    email_order = nil
-    assert_enqueued_email_with OrderMailer, :received,
-      params: ->(params) { email_order = params[:order] }
+    # Created a new order
+    created_order = Order.last
+    refute_equal @order.id, created_order.id
+    assert_equal @order.name, created_order.name
+    assert_equal @order.email, created_order.email
+    assert_equal 1, created_order.line_items.count # @order.line_items is now empty!
+    assert_equal @order.payment.to_json, created_order.payment.to_json
 
-    assert_equal @order.name, email_order.name
-    assert_equal @order.email, email_order.email
-    assert_equal 1, email_order.line_items.count # @order.line_items is now empty!
-    assert_equal @order.payment.to_json, email_order.payment.to_json
+    # ChargeOrderJob and OrderMailer
+    assert_enqueued_with job: ChargeOrderJob, args: [ created_order ]
+    assert_enqueued_email_with OrderMailer, :received, params: { order: created_order }
 
-    assert_redirected_to order_url(Order.last)
+    assert_redirected_to order_url(created_order)
   end
 
   test "should show order" do

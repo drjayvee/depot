@@ -23,9 +23,11 @@ class OrdersController < ApplicationController
 
     if @order.save
       @cart.destroy!
+      session[:cart_id] = nil
+
+      ChargeOrderJob.perform_later(@order)
       OrderMailer.with(order: @order).received.deliver_later
 
-      session[:cart_id] = nil
       redirect_to @order, notice: "Order was successfully created."
     else
       # TODO: Bug! Line items have been removed from cart!

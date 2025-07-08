@@ -18,6 +18,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def charge!
+    Pago.make_payment(self)
+  end
+
   private
 
   def validate_payment
