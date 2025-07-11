@@ -8,6 +8,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+User.delete_all
+
+User.create(email_address: "jay@hey.com", password: "pwn")
+
 Product.delete_all
 
 Product.create!(

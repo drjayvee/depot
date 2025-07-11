@@ -5,9 +5,9 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     @order = orders(:one)
   end
 
-  test "should get index" do
+  test "should not get index if unauthenticated" do
     get orders_url
-    assert_response :success
+    assert_response :found
   end
 
   test "should get new" do
@@ -30,7 +30,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference(
       -> { Order.count } => 1,
-      -> { Cart.count }  => -1
+      -> { Cart.count } => -1
     ) do
       post(orders_url, params: { order: {
         address: @order.address,
@@ -57,11 +57,11 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_enqueued_with job: ChargeOrderJob, args: [ created_order ]
     assert_enqueued_email_with OrderMailer, :received, params: { order: created_order }
 
-    assert_redirected_to order_url(created_order)
+    assert_redirected_to store_index_path
   end
 
-  test "should show order" do
+  test "should not show order if unauthenticated" do
     get order_url(@order)
-    assert_response :success
+    assert_response :found
   end
 end

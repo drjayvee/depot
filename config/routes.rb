@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   resources :carts
   resources :line_items, only: %i[ create destroy ]
   resources :orders
+
+  # authentication required (with some exceptions)
   resources :products
   get "products/:id/hovercard", to: "products#hovercard", as: "product_hovercard"
+  resources :passwords, param: :token
+  resource :session
 end

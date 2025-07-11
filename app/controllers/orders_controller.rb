@@ -1,5 +1,8 @@
 class OrdersController < ApplicationController
+  include Authentication
   include CurrentCart
+
+  allow_unauthenticated_access only: %i[ new create ]
 
   before_action :set_cart, only: %i[ new create ]
   before_action :ensure_cart_is_not_empty, only: %i[ new ]
@@ -28,7 +31,7 @@ class OrdersController < ApplicationController
       ChargeOrderJob.perform_later(@order)
       OrderMailer.with(order: @order).received.deliver_later
 
-      redirect_to @order, notice: "Order was successfully created."
+      redirect_to store_index_path, notice: "Order was successfully created."
     else
       # TODO: Bug! Line items have been removed from cart!
       render :new, status: :unprocessable_entity
@@ -36,25 +39,26 @@ class OrdersController < ApplicationController
   end
 
   private
-    def set_order
-      @order = Order.find(params.expect(:id))
-    end
 
-    def ensure_cart_is_not_empty
-      redirect_to store_index_path, notice: "You cart is empty" if @cart.empty?
-    end
+  def set_order
+    @order = Order.find(params.expect(:id))
+  end
 
-    def order_params
-      params.expect(order: [
-        :name,
-        :address,
-        :email,
-        payment: [
-          :type,
-          :routing_number, :account_number,      # CheckPayment
-          :credit_card_number, :expiration_date, # CreditCardPayment
-          :number,                               # PurchaseOrderPayment
-        ],
-      ])
-    end
+  def ensure_cart_is_not_empty
+    redirect_to store_index_path, notice: "You cart is empty" if @cart.empty?
+  end
+
+  def order_params
+    params.expect(order: [
+      :name,
+      :address,
+      :email,
+      payment: [
+        :type,
+        :routing_number, :account_number, # CheckPayment
+        :credit_card_number, :expiration_date, # CreditCardPayment
+        :number, # PurchaseOrderPayment
+      ],
+    ])
+  end
 end
