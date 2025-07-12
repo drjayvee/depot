@@ -3,8 +3,7 @@ require "test_helper"
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @product = products(:alaska)
-    @user = users(:one)
-    post session_url, params: { email_address: @user.email_address, password: "password" }
+    login_as users(:one)
   end
 
   test "should get index" do
