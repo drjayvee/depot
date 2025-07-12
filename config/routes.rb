@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "admin/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   resources :orders
 
   # authentication required (with some exceptions)
+  get "admin" => "admin#index"
   resources :products
   get "products/:id/hovercard", to: "products#hovercard", as: "product_hovercard"
   resources :passwords, param: :token
