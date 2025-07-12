@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   get "products/:id/hovercard", to: "products#hovercard", as: "product_hovercard"
   resources :passwords, param: :token
   resource :session
+  resources :users
 end

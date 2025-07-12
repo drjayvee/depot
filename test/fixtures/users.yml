@@ -2,4 +2,5 @@
 
 one:
   email_address: one@example.com
+  name: Jay Vee
   password_digest: <%= password_digest %>
