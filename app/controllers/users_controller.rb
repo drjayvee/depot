@@ -44,8 +44,9 @@ class UsersController < ApplicationController
   # DELETE /users/1 or /users/1.json
   def destroy
     @user.destroy!
-
     redirect_to users_path, status: :see_other, notice: "User was successfully destroyed."
+  rescue
+    redirect_to users_path, status: :see_other, error: @user.errors.full_messages.join
   end
 
   private
