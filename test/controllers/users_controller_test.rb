@@ -40,8 +40,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy user" do
+    user = User.create name: "Nr 2", email_address: "two@hey.com", password: "#1 some day"
+
     assert_difference("User.count", -1) do
-      delete user_url(@user)
+      delete user_url(user)
     end
 
     assert_redirected_to users_url

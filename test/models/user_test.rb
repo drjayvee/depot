@@ -37,4 +37,13 @@ class UserTest < ActiveSupport::TestCase
     refute_empty user.errors[:email_address]
     assert_match "has already been taken", user.errors[:email_address].first
   end
+
+  test "last user can't be destroyed" do
+    second_user = User.create name: "Nr 2", email_address: "two@hey.com", password: "#1 some day"
+    second_user.destroy! # should work
+
+    last_user = users(:one)
+    refute last_user.destroy
+    assert_match "one user must remain", last_user.errors[:base].first
+  end
 end
