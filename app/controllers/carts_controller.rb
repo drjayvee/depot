@@ -15,17 +15,17 @@ class CartsController < ApplicationController
 
   private
 
-  def set_cart
-    cart_id_param = params.expect(:id).to_i
-    session_cart_id = session[:cart_id]
-    invalid_cart unless cart_id_param == session_cart_id
-    @cart = Cart.find(session_cart_id)
-  rescue ActiveRecord::RecordNotFound
-    invalid_cart
-  end
+    def set_cart
+      cart_id_param = params.expect(:id).to_i
+      session_cart_id = session[:cart_id]
+      invalid_cart unless cart_id_param == session_cart_id
+      @cart = Cart.find(session_cart_id)
+    rescue ActiveRecord::RecordNotFound
+      invalid_cart
+    end
 
-  def invalid_cart
-    logger.error "Attempt to access invalid cart: #{params[:id]}"
-    redirect_to store_index_path, notice: "Invalid cart"
-  end
+    def invalid_cart
+      logger.error "Attempt to access invalid cart: #{params[:id]}"
+      redirect_to store_index_path, notice: "Invalid cart"
+    end
 end

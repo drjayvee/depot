@@ -40,25 +40,25 @@ class OrdersController < ApplicationController
 
   private
 
-  def set_order
-    @order = Order.find(params.expect(:id))
-  end
+    def set_order
+      @order = Order.find(params.expect(:id))
+    end
 
-  def ensure_cart_is_not_empty
-    redirect_to store_index_path, notice: "You cart is empty" if @cart.empty?
-  end
+    def ensure_cart_is_not_empty
+      redirect_to store_index_path, notice: "You cart is empty" if @cart.empty?
+    end
 
-  def order_params
-    params.expect(order: [
-      :name,
-      :address,
-      :email,
-      payment: [
-        :type,
-        :routing_number, :account_number, # CheckPayment
-        :credit_card_number, :expiration_date, # CreditCardPayment
-        :number, # PurchaseOrderPayment
-      ],
-    ])
-  end
+    def order_params
+      params.expect(order: [
+        :name,
+        :address,
+        :email,
+        payment: [
+          :type,
+          :routing_number, :account_number, # CheckPayment
+          :credit_card_number, :expiration_date, # CreditCardPayment
+          :number, # PurchaseOrderPayment
+        ],
+      ])
+    end
 end

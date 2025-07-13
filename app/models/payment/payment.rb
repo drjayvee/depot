@@ -26,10 +26,10 @@ module Payment
       return nil if json.nil?
 
       hash = if json.kind_of? String
-        ActiveSupport::JSON.decode(json)
-      else
-        json.stringify_keys
-      end
+               ActiveSupport::JSON.decode(json)
+             else
+               json.stringify_keys
+             end
       klass = TYPE_CLASSES[hash["type"].to_i]
 
       klass.new.tap do |payment|
@@ -41,7 +41,8 @@ module Payment
       super.merge("type" => TYPE_CLASSES.key(self.class))
     end
 
-    def attributes=(hash) # overriding from_json be nicer but would require more code
+    def attributes=(hash)
+      # overriding from_json be nicer but would require more code
       super(hash.without("type"))
     end
 

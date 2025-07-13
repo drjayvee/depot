@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   has_one_attached :image do |attachable|
-    attachable.variant :thumb,   resize_to_limit: [ 150, 100 ], preprocessed: true
+    attachable.variant :thumb, resize_to_limit: [ 150, 100 ], preprocessed: true
     attachable.variant :preview, resize_to_limit: [ 640, 480 ], preprocessed: true
   end
 
@@ -20,19 +20,19 @@ class Product < ApplicationRecord
 
   private
 
-  def acceptable_image_type
-    return unless image.attached?
+    def acceptable_image_type
+      return unless image.attached?
 
-    acceptable_types = %w[image/gif image/jpeg image/png]
-    unless acceptable_types.include? image.content_type
-      errors.add(:image, "must be a GIF, JPEG or PNG image")
+      acceptable_types = %w[image/gif image/jpeg image/png]
+      unless acceptable_types.include? image.content_type
+        errors.add(:image, "must be a GIF, JPEG or PNG image")
+      end
     end
-  end
 
-  def ensure_not_referenced_by_any_line_item
-    if line_items.any?
-      errors.add(:base, "Line Items present")
-      throw :abort
+    def ensure_not_referenced_by_any_line_item
+      if line_items.any?
+        errors.add(:base, "Line Items present")
+        throw :abort
+      end
     end
-  end
 end

@@ -34,6 +34,7 @@ class LineItemsController < ApplicationController
   end
 
   private
+
     def redirect_after_destroy
       redirect_to(
         @cart.empty? ? store_index_path : cart_path(@line_item.cart),

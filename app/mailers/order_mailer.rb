@@ -11,7 +11,7 @@ class OrderMailer < ApplicationMailer
 
   private
 
-  def set_order
-    @order = params[:order]
-  end
+    def set_order
+      @order = params[:order]
+    end
 end

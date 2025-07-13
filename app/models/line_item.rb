@@ -14,10 +14,10 @@ class LineItem < ApplicationRecord
 
   private
 
-  def ensure_belongs_to_cart_or_order
-    if cart.nil? && order.nil?
-      errors.add :base, "Must belong to cart or order"
-      throw :abort
+    def ensure_belongs_to_cart_or_order
+      if cart.nil? && order.nil?
+        errors.add :base, "Must belong to cart or order"
+        throw :abort
+      end
     end
-  end
 end

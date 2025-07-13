@@ -11,10 +11,10 @@ class User < ApplicationRecord
 
   private
 
-  def ensure_last_one_standing
-    unless User.count > 1
-      errors.add :base, "At least one user must remain"
-      throw :abort
+    def ensure_last_one_standing
+      unless User.count > 1
+        errors.add :base, "At least one user must remain"
+        throw :abort
+      end
     end
-  end
 end

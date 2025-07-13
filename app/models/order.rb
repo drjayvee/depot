@@ -24,11 +24,11 @@ class Order < ApplicationRecord
 
   private
 
-  def validate_payment
-    return if payment.nil?
+    def validate_payment
+      return if payment.nil?
 
-    unless payment.validate
-      errors.add(:payment, payment.errors.full_messages.join)
+      unless payment.validate
+        errors.add(:payment, payment.errors.full_messages.join)
+      end
     end
-  end
 end
