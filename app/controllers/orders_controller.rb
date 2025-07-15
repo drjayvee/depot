@@ -22,12 +22,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params.except(:payment))
     @order.payment = Payment::Payment.load(order_params[:payment].to_h)
-
-    Order.transaction do
-      @order.transfer_line_items_from_cart @cart
-      @order.save!
-      @cart.destroy!
-    end
+    @order.transfer_line_items_from_cart! @cart
 
     session[:cart_id] = nil
 

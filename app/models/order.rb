@@ -11,10 +11,15 @@ class Order < ApplicationRecord
     line_items.sum(&:total_price)
   end
 
-  def transfer_line_items_from_cart(cart)
-    cart.line_items.each do |item|
-      line_items << item
-      cart.line_items.delete item
+  def transfer_line_items_from_cart!(cart)
+    transaction do
+      cart.line_items.each do |item|
+        line_items << item
+        cart.line_items.delete item
+      end
+
+      save!
+      cart.destroy!
     end
   end
 

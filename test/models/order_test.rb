@@ -78,7 +78,7 @@ class OrderTest < ActiveSupport::TestCase
     line_item = cart.line_items.build(product: products(:alaska))
 
     order = orders(:one)
-    order.transfer_line_items_from_cart cart
+    order.transfer_line_items_from_cart! cart
 
     assert cart.empty?
     assert_same 1, order.line_items.size
