@@ -60,6 +60,26 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to store_index_path
   end
 
+  test "should preserve cart if order is invalid" do
+    get new_order_url # session[:cart_id] doesn't yet exist
+
+    cart = Cart.find(session[:cart_id])
+    cart.line_items.create!(product_id: products(:alaska).id)
+
+    assert_no_difference [
+      -> { Order.count },
+      -> { Cart.count },
+      -> { cart.line_items.count },
+    ] do
+      post(orders_url, params: { order: {
+        payment: {
+          type: Payment::TYPES[:purchase_order]
+        },
+        cart_id: cart.id
+      } })
+    end
+  end
+
   test "should not show order if unauthenticated" do
     get order_url(@order)
     assert_response :found

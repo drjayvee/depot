@@ -22,20 +22,21 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params.except(:payment))
     @order.payment = Payment::Payment.load(order_params[:payment].to_h)
-    @order.transfer_line_items_from_cart @cart
 
-    if @order.save
+    Order.transaction do
+      @order.transfer_line_items_from_cart @cart
+      @order.save!
       @cart.destroy!
-      session[:cart_id] = nil
-
-      ChargeOrderJob.perform_later(@order)
-      OrderMailer.with(order: @order).received.deliver_later
-
-      redirect_to store_index_path, notice: "Order was successfully created."
-    else
-      # TODO: Bug! Line items have been removed from cart!
-      render :new, status: :unprocessable_entity
     end
+
+    session[:cart_id] = nil
+
+    ChargeOrderJob.perform_later(@order)
+    OrderMailer.with(order: @order).received.deliver_later
+
+    redirect_to store_index_path, notice: "Order was successfully created."
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
   end
 
   private
