@@ -1,24 +1,7 @@
-# README
+# Depot
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is my implementation of the Depot application from [Sam Ruby's Agile Web Development with Rails 8](https://pragprog.com/titles/rails8/agile-web-development-with-rails-8/).
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+I've made a number of changes and/or extensions:
+ * Add a [product/hovercard](https://github.com/drjayvee/depot/blob/main/app/controllers/products_controller.rb#L17) route
+ * `Order` serializes [Payment](https://github.com/drjayvee/depot/blob/main/app/models/payment/payment.rb) instead of using a separate Model
